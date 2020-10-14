@@ -28,8 +28,9 @@ npm run start:dev
 # Run the Nest server only
 npm run start
 
-
-# Server runs on http://localhost:5000 and client on http://localhost:3000
+# Client runs on http://localhost:3000
+# phpmyadmin runs on http://localhost:8081
+# mySql runs on http://localhost:3306
 ```
 
 ## App Info
