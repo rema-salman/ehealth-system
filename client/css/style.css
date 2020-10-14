@@ -1,0 +1,28 @@
+header,
+main,
+footer {
+  padding-left: 300px;
+}
+img {
+  width: 100%;
+}
+@media only screen and (max-width: 992px) {
+  header,
+  main,
+  footer {
+    padding-left: 0;
+  }
+}
+
+.center {
+  text-align: center;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.section {
+  display: none;
+}

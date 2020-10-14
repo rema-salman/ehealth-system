@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <!--Import Google Icon Font-->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="./css/visualisation.css" />
+    <!-- Materialized Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+  </head>
+  <body>
+    <nav class="black text-white">
+      <a href="#" data-target="slide-out" class="sidenav-trigger"
+        ><i class="material-icons">menu</i></a
+      >
+    </nav>
+    <!-- Sidebar  -->
+    <ul id="slide-out" class="sidenav sidenav-fixed">
+      <li>
+        <div class="user-view">
+          <div class="background">
+            <img
+              src="https://images.pexels.com/photos/60022/microscope-slide-research-close-up-60022.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+            />
+          </div>
+          <a href="#user"><img id="profilePhoto" class="circle"/></a>
+          <a href="#name"
+            ><span id="profileName" class="white-text name"></span
+          ></a>
+          <a href="#email"
+            ><span id="profileEmail" class="white-text email"></span
+          ></a>
+        </div>
+      </li>
+    </ul>
+    <!-- Main dashboard container -->
+    <main>
+      <div id="container" class="container"></div>
+      <div id="modals"></div>
+      <div id="canvasModals"></div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/7.22.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.22.0/firebase-auth.js"></script>
+
+    <!-- matirialize and axios CDNs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- D3.js Compiled and minified JavaScript -->
+    <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+    <!-- OUR JavaScript -->
+    <script src="/js/services.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/visualisation.js"></script>
+    <script src="/js/app.js"></script>
+  </body>
+</html>
