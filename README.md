@@ -22,7 +22,7 @@ docker-compose up
 # Install dependencies for server
 npm install
 
-# Run the client & server with concurrently
+# Run the client & server with concurrently with auto-saving
 npm run start:dev
 
 # Run the Nest server only
