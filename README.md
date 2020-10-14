@@ -25,7 +25,7 @@ npm install
 # Run the client & server with concurrently with auto-saving
 npm run start:dev
 
-# Run the Nest server only
+# Run the Nest server
 npm run start
 
 # Client runs on http://localhost:3000
