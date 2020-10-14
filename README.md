@@ -22,10 +22,10 @@ docker-compose up
 # Install dependencies for server
 npm install
 
-# Run the client & server with concurrently with auto-saving
+# Run the client & server with auto-saving
 npm run start:dev
 
-# Run the Nest server
+# Run the without auto-saving
 npm run start
 
 # Client runs on http://localhost:3000
