@@ -6,6 +6,13 @@ import { UserDto } from './dto/users.dto';
 
 @Injectable()
 export class UsersService {
+  async getAllPatients(): Promise<UserDto[]> {
+    let results: UserDto[] = await getConnection().query(
+      `SELECT * FROM User WHERE Role_IDrole=1`,
+    );
+    return results;
+  }
+
   async getUserByEmail(email: string, id: number = null): Promise<UserDto> {
     let results: UserDto[] = null;
     if (id) {
@@ -94,7 +101,11 @@ export class UsersService {
      */
     return this.getUserByEmail(firebaseUser.email);
   }
-
+  /**
+   * Gets the organization by its id
+   * @param {number} id - organization Id
+   * @returns {Promise} Promise Organization object through the returned function
+   */
   async getOrganizationById(id: number): Promise<OrganizationDto> {
     const results: OrganizationDto[] = await getConnection().query(
       `

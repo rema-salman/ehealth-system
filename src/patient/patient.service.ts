@@ -3,6 +3,7 @@ import { UsersService } from 'src/users/users.service';
 import { getConnection } from 'typeorm';
 import { MedicineDto } from './dto/medicine.dto';
 import { NoteDto } from './dto/note.dto';
+import { ReasearcherNoteDto } from './dto/reasercher-note.dto';
 import { TestSessionDto } from './dto/test-session.dto';
 import { TestDto } from './dto/test.dto';
 import { TherapyListDto } from './dto/therapy-list.dto';
@@ -105,6 +106,39 @@ export class PatientService {
     for (const note of results) {
       note.medic = await this.userService.getUserByEmail(null, note.User_IDmed);
     }
+
+    return results;
+  }
+
+  /**
+   * creates the researcher note, using note and his/her ID
+   * @param {string} note - the created note
+   * @param {number} id - userId
+   * @returns {Array} Promise - array of ReasearcherNoteDto
+   */
+  async createResearcherNote(note: string, userId: number) {
+    await getConnection().query(
+      `
+      INSERT INTO ResearcherNotes 
+      (note,userId) VALUES (?,?)
+      `,
+      [note, userId],
+    );
+  }
+  /**
+   * gets the researcher notes using his/her ID
+   * @param {number} id - userId
+   * @returns {Array} Promise - array of ReasearcherNoteDto
+   */
+  async getReasercherNotes(userId: number): Promise<ReasearcherNoteDto[]> {
+    const results: ReasearcherNoteDto[] = await getConnection().query(
+      `
+      SELECT * FROM  ResearcherNotes
+      WHERE userId=?
+      ORDER BY id DESC
+      `,
+      [userId],
+    );
 
     return results;
   }

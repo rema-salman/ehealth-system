@@ -35,10 +35,30 @@ const setProfileInfo = data => {
     addToSideMenu(
       '<li><a href="#!" onclick="showSection(\'Allpatients\')">All patients</a></li>',
     );
-    if (data.Role_IDrole == 3) {
+    if (data.Role_IDrole == 3 || data.Role_IDrole == 4) {
       addToSideMenu(
         '<li><a href="#news" onclick="showSection(\'rss\')">RSS</a></li>',
       );
+
+      addToSideMenu(
+        '<li><a href="#notes" onclick="showSection(\'notes\')">Notes</a></li>',
+      );
+
+      addToSideMenu(
+        '<li><a href="#maps" onclick="showSection(\'maps\')">Map</a></li>',
+      );
+
+      getNotes();
+
+      addSection(
+        `
+        <div id="map" style="height:400px"></div>
+
+
+      `,
+        'maps',
+      );
+      getPatients();
     }
   }
   addToSideMenu('<li><div class="divider"></div></li>');
@@ -98,12 +118,119 @@ const addSection = (html, id) => {
   );
 };
 
+const setPatientsLocation = patients => {
+  let centerLat = 0;
+  let centerLong = 0;
+  let count = 0;
+  for (var i = 0; i < patients.length; i++) {
+    if (patients[i].Lat != null && patients[i].Long != null) {
+      centerLat += patients[i].Lat;
+      count++;
+      centerLong += patients[i].Long;
+    }
+  }
+  if (count != 0) {
+    centerLat = centerLat / count;
+    centerLong = centerLong / count;
+  }
+
+  // Create the script tag, set the appropriate attributes
+  var script = document.createElement('script');
+  script.src =
+    'https://maps.googleapis.com/maps/api/js?key=AIzaSyC2zn_O3RdTuUKV9f3kb45MUirQkss6ey4&callback=initMap';
+  script.defer = true;
+
+  // Attach your callback function to the `window` object
+  window.initMap = function() {
+    // JS API is loaded and available
+
+    const map = new google.maps.Map(document.getElementById('map'), {
+      center: { lat: centerLat, lng: centerLong },
+      zoom: 5,
+    });
+
+    for (var i = 0; i < patients.length; i++) {
+      if (patients[i].Lat != null && patients[i].Long != null) {
+        const marker = new google.maps.Marker({
+          position: { lat: patients[i].Lat, lng: patients[i].Long },
+          map,
+          title: patients[i].username + ' (' + patients[i].email + ')',
+          optimized: false,
+        });
+        console.log(patients[i]);
+        marker.patient = patients[i];
+
+        const contentString = `
+        <h4>${marker.patient.username}</h4>
+        <p> (${marker.patient.email})</p>
+        `;
+        const infowindow = new google.maps.InfoWindow({
+          content: contentString,
+        });
+
+        marker.addListener('click', () => {
+          infowindow.open(map, marker);
+          infowindow.open(map, marker);
+          // map.setZoom(8);
+          // map.setCenter(marker.getPosition());
+        });
+      }
+    }
+  };
+
+  // Append the 'script' element to 'head'
+  document.head.appendChild(script);
+};
+
 const showSection = id => {
   const sections = document.querySelectorAll('.section');
   for (var i = 0; i < sections.length; i++) {
     sections[i].style.display = 'none';
   }
   document.getElementById(id).style.display = 'block';
+};
+
+const setNotes = notes => {
+  const element = document.getElementById('notes');
+  let showAfter = false;
+  if (element) {
+    element.remove();
+    showAfter = true;
+  }
+
+  addSection(
+    `
+
+      <input type="text" id="note"/>
+      <button class="btn" id="createNote">Create Note</button>
+
+      ${notes
+        .map(note => {
+          return `
+          <div class="card">
+          <div class="card-content">
+          ${note.note}
+           </div>
+           </div>
+          `;
+        })
+        .join('')}
+    `,
+    'notes',
+  );
+
+  document.getElementById('createNote').addEventListener('click', () => {
+    const noteValue = document.getElementById('note').value;
+    if (noteValue.trim() == '') {
+      M.toast({ html: 'Note can not be empty' });
+      return;
+    }
+    createNote(noteValue);
+  });
+
+  if (showAfter) {
+    showSection('notes');
+  }
 };
 
 const renderRss = rss => {
@@ -226,7 +353,7 @@ const rednerMedicTherapyModal = (therapy, id) => {
           </div>
 
           <div id="${id}test3" class="col s12">
-          ${renderTheraphyList(therapy.theraphyList)}
+            ${renderTheraphyList(therapy.theraphyList)}
           </div>
 
           <div id="${id}test4" class="col s12">
@@ -290,8 +417,7 @@ const renderMedicines = medicines => {
 const renderTests = (tests, id) => {
   if (tests.length == 0) return '';
   return `
-  <div class="row">
-    <div class="col s12">
+ 
     <h5> Tests: </h5> 
     ${tests
       .map(test => {
@@ -319,7 +445,7 @@ const renderTests = (tests, id) => {
         `;
       })
       .join('')}  
-  </div>
+ 
     `;
 };
 
