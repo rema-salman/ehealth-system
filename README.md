@@ -8,6 +8,7 @@ This version deliverables
 * [View Documentation Here](https://drive.google.com/file/d/1leMLoACpS-v45ZpHJbnjStX6JcRKJCWA/view?usp=sharing)
 
 * [View Prototype Here]( https://youtu.be/C4y5vagvahM)
+* [Try it yourself Here]( http://167.99.250.32:3000/)
 
 ### Constrains
 * _docker_
